@@ -30,8 +30,13 @@ export interface XStateRouterProps extends React.Props<any> {
   options?: MachineOptions<any, any>
 }
 
+export interface PassedProps {
+  location: any
+  history: any
+}
+
 export const XStateRouter = withRouter(
-  class extends React.Component<XStateRouterProps, any> {
+  class extends React.Component<XStateRouterProps & PassedProps, any> {
 
     routes;
     service;
