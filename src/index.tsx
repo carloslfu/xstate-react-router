@@ -70,7 +70,7 @@ export const XStateRouter = withRouter(
       // setup service
       this.service = interpret(Machine(config, this.props.options));
       this.service.start();
-      this.service.onTransition(this.handleRouterTransition);
+      this.service.onTransition(this.handleXStateTransition);
       // initial route
       this.handleRouterTransition(this.props.location);
       this.unlistenHistory = this.props.history.listen(this.historyListener);
@@ -94,6 +94,7 @@ export const XStateRouter = withRouter(
         }
       }
       if (matchingRoute) {
+        this.debounceState = true;
         this.service.send(routerEventPrefix + matchingRoute[0].join('_'));
         const state = this.service.state.value;
         if (!matchesState(state, matchingRoute[0].join('.'))) {
