@@ -31,7 +31,7 @@ export interface XStateRouterProps extends React.Props<any> {
 }
 
 export const XStateRouter = withRouter(
-  class extends React.Component<any, any> {
+  class extends React.Component<XStateRouterProps, any> {
 
     routes;
     service;
