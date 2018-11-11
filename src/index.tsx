@@ -85,9 +85,9 @@ export const XStateRouter = withRouter(
         }
       }
       if (matchingRoute) {
-        const lastState = this.service.state.value;
         this.service.send(routerEventPrefix + matchingRoute[0].join('_'));
-        if (!matchesState(lastState, matchingRoute[0].join('.'))) {
+        const state = this.service.state.value;
+        if (!matchesState(state, matchingRoute[0].join('.'))) {
           const stateNode = this.service.machine.getStateNodeByPath(
             this.service.state.tree.paths[0]
           );
