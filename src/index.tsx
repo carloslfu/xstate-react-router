@@ -40,7 +40,9 @@ export const XStateRouter = withRouter(
 
     routes;
     service;
-    debounce;
+    debounceHistory;
+    debounceState;
+    unlistenHistory;
 
     static propTypes = {
       config: PropTypes.object.isRequired,
@@ -68,19 +70,21 @@ export const XStateRouter = withRouter(
       // setup service
       this.service = interpret(Machine(config, this.props.options));
       this.service.start();
-      this.service.onTransition(state => console.log('state: ', state.value));
+      this.service.onTransition(this.handleRouterTransition);
       // initial route
       this.handleRouterTransition(this.props.location);
-      this.props.history.listen(location => {
-        if (this.debounce) {
-          this.debounce = false;
-          return;
-        }
-        this.handleRouterTransition(location, true);
-      });
+      this.unlistenHistory = this.props.history.listen(this.historyListener);
     }
 
-    handleRouterTransition(location, debounce?: boolean) {
+    historyListener = location => {
+      if (this.debounceHistory) {
+        this.debounceHistory = false;
+        return;
+      }
+      this.handleRouterTransition(location, true);
+    }
+
+    handleRouterTransition(location, debounceHistory?: boolean) {
       let matchingRoute;
       for (const route of this.routes) {
         const params = matchURI(route[1], location.pathname);
@@ -97,13 +101,32 @@ export const XStateRouter = withRouter(
             this.service.state.tree.paths[0]
           );
           if (stateNode.meta && stateNode.meta.path) {
-            if (debounce) {
-              this.debounce = true;
+            if (debounceHistory) {
+              this.debounceHistory = true;
             }
             this.props.history.replace(stateNode.meta.path);
           }
         }
       }
+    }
+
+    handleXStateTransition = state => {
+      if (this.debounceState) {
+        this.debounceState = false;
+        return;
+      }
+      const stateNode = this.service.machine.getStateNodeByPath(
+        state.tree.paths[0]
+      );
+      if (stateNode.meta && stateNode.meta.path) {
+        this.debounceHistory = true;
+        this.props.history.push(stateNode.meta.path);
+      }
+    };
+
+    componentWillUnmount() {
+      this.service.off(this.handleRouterTransition)
+      this.unlistenHistory()
     }
 
     render() {
