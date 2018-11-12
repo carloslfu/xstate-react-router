@@ -2,7 +2,10 @@
 
 XState connector to React Router.
 
-Live example here (a wizard): TODO
+Live examples:
+
+- [Simple routing](https://codesandbox.io/s/ykmykxnm3z).
+- A Site plus a Wizard (work in progress...), more complex use case.
 
 # Roadmap
 
