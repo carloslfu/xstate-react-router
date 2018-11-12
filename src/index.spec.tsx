@@ -32,7 +32,7 @@ const machineConfig = {
   },
   states: {
     home: {
-      meta: { path: '/home' },
+      meta: { path: '/' },
     },
     about: {
       meta: { path: '/about' }
@@ -99,6 +99,13 @@ describe('XStateRouter', () => {
     const { getByTestId } = renderWithRouter(<App />)
     fireEvent.click(getByTestId('go-about'))
     expect(getByTestId('state').textContent).toBe('about')
+  })
+
+  it('When go back in history, should update state acordinglly', () => {
+    const { getByTestId, history } = renderWithRouter(<App />)
+    fireEvent.click(getByTestId('go-about'))
+    history.goBack()
+    expect(getByTestId('state').textContent).toBe('home')
   })
 
   // it('When enter a substate of a routable state from other routable state, should update the route', () => {

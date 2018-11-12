@@ -18,6 +18,8 @@
     "lib": ["es2018", "dom"]
   },
   "exclude": [
+    "src/**/*.spec.tsx",
+    "src/**/*.spec.ts",
     "node_modules",
     "lib",
   ]

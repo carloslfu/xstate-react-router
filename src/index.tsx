@@ -44,9 +44,10 @@ export const XStateRouter = withRouter(
 
     routes
     service
-    machineState
     debounceHistory
     debounceState
+    machineState
+    mounted
     unlistenHistory
 
     static propTypes = {
@@ -75,6 +76,7 @@ export const XStateRouter = withRouter(
       // setup service
       const machine = Machine(config, this.props.options)
       this.machineState = machine.initialState
+      this.state = { machineState: this.machineState }
       this.service = interpret(machine)
       this.service.start()
       this.service.onTransition(this.handleXStateTransition)
@@ -119,7 +121,11 @@ export const XStateRouter = withRouter(
     }
 
     handleXStateTransition = state => {
-      this.machineState = state
+      if (this.mounted) {
+        this.setState({ machineState: state })
+      } else {
+        this.machineState = state
+      }
       if (this.debounceState) {
         this.debounceState = false
         return
@@ -133,6 +139,11 @@ export const XStateRouter = withRouter(
       }
     }
 
+    componentDidMount() {
+      this.mounted = true
+      this.setState({ machineState: this.machineState })
+    }
+
     componentWillUnmount() {
       this.service.off(this.handleRouterTransition)
       this.unlistenHistory()
@@ -141,7 +152,7 @@ export const XStateRouter = withRouter(
     render() {
       return (
         <RouterMachineContext.Provider value={this.service}>
-          <MachineStateContext.Provider value={this.machineState}>
+          <MachineStateContext.Provider value={this.state.machineState}>
             {this.props.children}
           </MachineStateContext.Provider>
         </RouterMachineContext.Provider>
