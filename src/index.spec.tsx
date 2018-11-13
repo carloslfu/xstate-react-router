@@ -28,7 +28,8 @@ const NoMatch = () => <div>No match</div>
 const machineConfig = {
   initial: 'home',
   on: {
-    GoAbout: 'about'
+    GoAbout: 'about',
+    GoSubstateB: 'substate.b'
   },
   states: {
     home: {
@@ -72,6 +73,9 @@ function App() {
         <RouterMachine>
           {machine => <div><button data-testid="go-about" onClick={() => machine && machine.send('GoAbout')}></button></div>}
         </RouterMachine>
+        <RouterMachine>
+          {machine => <div><button data-testid="go-substate-b" onClick={() => machine && machine.send('GoSubstateB')}></button></div>}
+        </RouterMachine>
         <MachineState>
           {state => <div data-testid="state">{stateToString(state && state.value)}</div>}
         </MachineState>
@@ -108,8 +112,10 @@ describe('XStateRouter', () => {
     expect(getByTestId('state').textContent).toBe('home')
   })
 
-  // it('When enter a substate of a routable state from other routable state, should update the route', () => {
-
-  // })
+  it('When enter a substate of a routable state from other routable state, should update the route', () => {
+    const { getByTestId } = renderWithRouter(<App />, { route: '/about' })
+    fireEvent.click(getByTestId('go-substate-b'))
+    expect(getByTestId('location-display').textContent).toBe('/substate')
+  })
 
 })

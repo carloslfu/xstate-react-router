@@ -133,9 +133,10 @@ export const XStateRouter = withRouter(
       const stateNode = this.service.machine.getStateNodeByPath(
         state.tree.paths[0]
       )
-      if (stateNode.meta && stateNode.meta.path) {
+      const path = findPathRecursive(stateNode)
+      if (path) {
         this.debounceHistory = true
-        this.props.history.push(stateNode.meta.path)
+        this.props.history.push(path)
       }
     }
 
@@ -160,3 +161,14 @@ export const XStateRouter = withRouter(
     }
   }
 )
+
+
+function findPathRecursive(stateNode) {
+  let actual = stateNode
+  while(actual.parent) {
+    if (actual.meta && actual.meta.path) {
+      return actual.meta.path
+    }
+    actual = actual.parent
+  }
+}
