@@ -9,7 +9,7 @@ Live examples:
 
 # Roadmap
 
-- [ ] Use React Hooks (#2).
+- [ ] Use React Hooks [#2](https://github.com/carloslfu/xstate-react-router/issues/2).
 - [ ] Create a wizard example.
-- [ ] Add tests (#3).
+- [ ] Add tests [#3](https://github.com/carloslfu/xstate-react-router/issues/3).
 - [ ] Lazy loading support (xstate splitting).
