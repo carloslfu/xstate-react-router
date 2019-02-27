@@ -5,8 +5,11 @@
 Live examples:
 
 - [Simple routing](https://codesandbox.io/s/ykmykxnm3z).
-- A Site plus a Wizard (work in progress...), more complex use case.
+- A wizard (work in progress...), more complex use case.
 
 # Roadmap
 
-- [ ] Lazy loading support (xstate splitting)
+- [ ] Use React Hooks (#2).
+- [ ] Create a wizard example.
+- [ ] Add tests (#3).
+- [ ] Lazy loading support (xstate splitting).
