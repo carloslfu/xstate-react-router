@@ -1,6 +1,6 @@
 # xstate-react-router
 
-XState connector to React Router.
+[XState](https://github.com/davidkpiano/xstate) connector to React Router.
 
 Live examples:
 
