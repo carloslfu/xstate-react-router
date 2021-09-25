@@ -2,6 +2,8 @@
 
 [XState](https://github.com/davidkpiano/xstate) connector to [React Router](https://github.com/ReactTraining/react-router).
 
+NB: This library is [no longer maintained](https://github.com/carloslfu/xstate-router/issues/25#issuecomment-682494116). The author recommends using [xstate-router](https://github.com/carloslfu/xstate-router/) instead, which is a complete routing library.
+
 Live examples:
 
 - [Simple routing](https://codesandbox.io/s/ykmykxnm3z).
